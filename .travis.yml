@@ -52,6 +52,7 @@ addons:
     - valgrind
     - python-yaml
     - lcov
+    - qt4-qmake
 
 before_install:
     # Set this to the name of the library
@@ -81,13 +82,15 @@ before_install:
 
 script:
     # `--coverage` flags required to generate coverage info for Coveralls
-    - ../../../b2 testing.launcher=valgrind address-model=64 architecture=x86 toolset=$CC cxxflags="--coverage -DBOOST_TRAVISCI_BUILD -std=$CXX_STANDARD" linkflags="--coverage"
+    - qmake "QMAKE_CXX=$CXX --coverage" "QMAKE_LFLAGS+=-Wl,-rpath=$BOOST/stage/lib --coverage" "INCLUDEPATH+=../../../boost" "LIBS+=-L$BOOST/stage/lib" qt_projects.pro
+    - make
+    - ./test
 
 after_success:
     # Copying Coveralls data to a separate folder
     - mkdir -p $TRAVIS_BUILD_DIR/coverals
-    - find ../../../bin.v2/ -name "*.gcda" -exec cp "{}" $TRAVIS_BUILD_DIR/coverals/ \;
-    - find ../../../bin.v2/ -name "*.gcno" -exec cp "{}" $TRAVIS_BUILD_DIR/coverals/ \;
+    - find ./ -name "*.gcda" -exec cp "{}" $TRAVIS_BUILD_DIR/coverals/ \;
+    - find ./ -name "*.gcno" -exec cp "{}" $TRAVIS_BUILD_DIR/coverals/ \;
 
     # Preparing Coveralls data by changind data format to a readable one
     - lcov --directory $TRAVIS_BUILD_DIR/coverals --base-directory ./ --capture --output-file $TRAVIS_BUILD_DIR/coverals/coverage.info
