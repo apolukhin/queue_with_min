@@ -14,7 +14,7 @@ import xsltproc ;
 import notfile ;
 import path ;
 
-project dll/doc ;
+project queue_with_min/doc ;
 
 #
 # Common params for doxygen
