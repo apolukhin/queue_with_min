@@ -166,8 +166,8 @@ public:
 
     /// \b Complexity: O(N), in case of POD type up to O(1)
     void clear() noexcept {
-        min_.clear();
         data_.clear();
+        min_ = data_.cend();
     }
 };
 

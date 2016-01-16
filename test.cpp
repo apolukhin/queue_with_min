@@ -255,6 +255,10 @@ TEST(qwm, move_and_copy2) {
 
     q = {999, 998, 3, 4, 5};
     ASSERT_TRUE(q == q_moved);
+
+    q.clear();
+    ASSERT_TRUE(q.size() == 0);
+
 }
 
 TEST(qwm, noexcepts) {
