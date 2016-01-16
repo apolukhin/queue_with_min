@@ -1,0 +1,62 @@
+# Copyright (c) 2016 Antony Polukhin.
+#
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+using quickbook ;
+using boostbook ;
+using doxygen ;
+using xsltproc ;
+
+import set ;
+import doxygen ;
+import xsltproc ;
+import notfile ;
+import path ;
+
+project dll/doc ;
+
+#
+# Common params for doxygen
+# 
+
+local doxygen_params =
+    <doxygen:param>HIDE_UNDOC_MEMBERS=YES
+    <doxygen:param>HIDE_UNDOC_CLASSES=YES
+    <doxygen:param>HIDE_SCOPE_NAMES=YES
+    <doxygen:param>EXTRACT_ALL=NO
+    <doxygen:param>EXTRACT_PRIVATE=NO
+    <doxygen:param>BUILTIN_STL_SUPPORT=YES
+    <doxygen:param>ENABLE_PREPROCESSING=YES
+    <doxygen:param>MACRO_EXPANSION=YES
+    <doxygen:param>"PREDEFINED= \\
+        \"BOOST_EXPLICIT_OPERATOR_BOOL()=explicit operator bool() const noexcept;\" \\
+        \"BOOST_QUEUE_DOXYGEN\" "
+    ;
+
+#
+# Ref Sessions Generation
+#
+doxygen autodoc_queue_with_min
+    :
+        [ glob 
+            ../queue_with_min.hpp
+        ]
+    :
+        $(doxygen_params)
+        <xsl:param>"boost.doxygen.reftitle=Queue with min"
+    ;
+
+#
+# Docs Generation
+#
+boostbook queue_with_min-doc
+    :
+        queue_with_min.qbk
+    :
+        <dependency>autodoc_queue_with_min
+        <xsl:param>boost.root=http://www.boost.org/doc/libs/1_60_0
+        #<xsl:param>boost.root=../../../.
+        <xml:param>html.stylesheet=../../../../doc/src/boostbook.css
+    ;
+

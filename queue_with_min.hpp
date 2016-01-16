@@ -37,14 +37,19 @@ class queue_with_min {
 public:
     typedef T value_type;
 
-    // fibonacci_heap() does not throw, but is not marked with `noexcept`.
-    // Need to define move contructor/assignments and default constructors, instead of writing `= default`
-    //
-    // https://github.com/boostorg/heap/issues/5
+    /// \b Complexity: O(1)
+    ///
+    /// \b Note:
+    /// fibonacci_heap() does not throw, but is not marked with `noexcept`.
+    /// Need to define move contructor/assignments and default constructors, instead of writing `= default`
+    ///
+    /// https://github.com/boostorg/heap/issues/5
     queue_with_min() noexcept {};
 
-    /*
-    After deque move assignment/construction (unless elementwise move assignment is forced by incompatible allocators)
+    /**
+    \b Complexity: O(1)
+
+    \b Note: After deque move assignment/construction (unless elementwise move assignment is forced by incompatible allocators)
     references, pointers, and iterators (other than the end iterator) to other remain valid, but refer to elements that
     are now in *this. The current standard makes this guarantee via the blanket statement in
     §23.2.1[container.requirements.general]/12, and a more direct guarantee is under consideration via LWG 2321
@@ -103,21 +108,24 @@ public:
 
     // back
 
+    /// \b Complexity: O(1)
     void push_back(value_type&& v) {
         emplace_back(std::move(v));
     }
 
+    /// \b Complexity: O(1)
     void push_back(const value_type& v) {
         emplace_back(v);
     }
 
+    /// \b Complexity: O(1)
     template <class... Args>
     void emplace_back(Args&&... args) {
         data_.emplace_back(std::forward<Args>(args)...);
         min_.push(pointer_to_last());
     }
 
-    // O(N)
+    /// \b Complexity: O(N)
     void pop_back() {
         auto it = std::find(min_.begin(), min_.end(), pointer_to_last());
         min_.erase(
@@ -126,6 +134,7 @@ public:
         data_.pop_back();
     }
 
+    /// \b Complexity: O(1)
     const value_type& back() const {
         return data_.back();
     }
@@ -133,21 +142,24 @@ public:
 
     // front
 
+    /// \b Complexity: O(1)
     void push_front(value_type&& v) {
         emplace_front(std::move(v));
     }
 
+    /// \b Complexity: O(1)
     void push_front(const value_type& v) {
         emplace_front(v);
     }
 
+    /// \b Complexity: O(1)
     template <class... Args>
     void emplace_front(Args&&... args) {
         data_.emplace_front(std::forward<Args>(args)...);
         min_.push(pointer_to_first());
     }
 
-    // O(N)
+    /// \b Complexity: O(N)
     void pop_front() {
         auto it = std::find(min_.begin(), min_.end(), pointer_to_first());
         min_.erase(
@@ -156,28 +168,34 @@ public:
         data_.pop_front();
     }
 
+    /// \b Complexity: O(1)
     const value_type& front() const {
         return data_.front();
     }
 
 
     // misc
+    /// \b Complexity: O(1)
     std::size_t size() const noexcept {
         return data_.size();
     }
 
+    /// \b Complexity: O(1)
     bool empty() const noexcept {
         return data_.empty();
     }
 
+    /// \b Complexity: O(1)
     const value_type& min() const {
         return *min_.top();
     }
 
+    /// \b Complexity: O(N)
     bool equal(const queue_with_min<T>& q) const noexcept {
         return data_ == q.data_;
     }
 
+    /// \b Complexity: O(N), in case of POD type up to O(1)
     void clear() noexcept {
         min_.clear();
         data_.clear();
