@@ -78,7 +78,7 @@ before_install:
     - TRAVIS_BUILD_DIR=$BOOST/libs/$PROJECT_TO_TEST
     - ./bootstrap.sh
     - ./b2 headers
-    - cd $BOOST/libs/$PROJECT_TO_TEST/test/
+    - cd $BOOST/libs/$PROJECT_TO_TEST/
 
 script:
     # `--coverage` flags required to generate coverage info for Coveralls
