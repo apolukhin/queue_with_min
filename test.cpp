@@ -1,10 +1,10 @@
-#include "queue_with_min.hpp"
+#include "queue_with_min_v1.hpp"
 
 #include <memory>
 
 #include "gtest/gtest.h"
 
-using namespace examples;
+using namespace examples_v1;
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

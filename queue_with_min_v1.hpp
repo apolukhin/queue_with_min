@@ -1,5 +1,5 @@
-#ifndef EXAMPLES_QUEUE_WITH_MIN_HPP
-#define EXAMPLES_QUEUE_WITH_MIN_HPP
+#ifndef EXAMPLES_QUEUE_WITH_MIN_V1_HPP
+#define EXAMPLES_QUEUE_WITH_MIN_V1_HPP
 
 #include <boost/config.hpp>
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -10,7 +10,7 @@
 #include <algorithm>
 
 
-namespace examples {
+namespace examples_v1 {
 
 template <class T>
 class queue_with_min {
@@ -176,6 +176,6 @@ inline bool operator==(const queue_with_min<T>& lhs, const queue_with_min<T>& rh
     return lhs.equal(rhs);
 }
 
-} // namespace examples
+} // namespace examples_v1
 
-#endif // EXAMPLES_QUEUE_WITH_MIN_HPP
+#endif // EXAMPLES_QUEUE_WITH_MIN_V1_HPP

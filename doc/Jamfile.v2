@@ -40,11 +40,12 @@ local doxygen_params =
 doxygen autodoc_queue_with_min
     :
         [ glob 
-            ../queue_with_min.hpp
+            ../queue_with_min_v1.hpp
+            ../queue_with_min_v2.hpp
         ]
     :
         $(doxygen_params)
-        <xsl:param>"boost.doxygen.reftitle=Queue with min"
+        <xsl:param>"boost.doxygen.reftitle=Queue with min Reference"
     ;
 
 #
